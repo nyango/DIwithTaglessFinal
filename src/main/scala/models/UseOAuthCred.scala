@@ -1,7 +1,7 @@
 package models
 
-import play.api.libs.oauth.OAuthCalculator
+import play.api.libs.ws.WSSignatureCalculator
 
 trait UseOAuthCred {
-  val cred: OAuthCalculator
+  val cred: WSSignatureCalculator
 }

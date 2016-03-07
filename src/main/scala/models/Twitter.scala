@@ -21,6 +21,5 @@ object Twitter {
     More(Fetch(screenName, f))
 
   def update(status: String): Free[Twitter, Unit] =
-    More(Update(status, Done()))
+    More(Update(status, Done((): Unit)))
 }
-

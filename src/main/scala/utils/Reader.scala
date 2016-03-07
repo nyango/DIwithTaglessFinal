@@ -2,6 +2,7 @@ package utils
 
 case class Reader[E, A](g: E => A) {
   def apply(e: E) = g(e)
+
   def run: E => A = apply
 
   def map[B](f: A => B): Reader[E, B] = Reader(e => f(g(e)))

@@ -10,4 +10,4 @@ libraryDependencies ++= Seq(
 
 mainClass := Some("Main")
 
-scalacOptions += "-language:higherKinds"
+scalacOptions ++= Seq("-language:higherKinds", "-language:implicitConversions")

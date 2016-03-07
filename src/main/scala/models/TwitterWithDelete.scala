@@ -17,7 +17,7 @@ object TwitterWithDelete {
   def done[A](a: A): Free[TwitterWithDelete, A] = Done[TwitterWithDelete, A](a)
 
   val example: Free[TwitterWithDelete, Unit] =
-    more(coproduct(left(Update("new tweet", more(coproduct(right(Delete("<id>", done()))))))))
+    more(coproduct(left(Update("new tweet", more(coproduct(right(Delete("<id>", done((): Unit)))))))))
 
   def inject[A](a: Twitter[A])(implicit I: Inject[Twitter, TwitterWithDelete]) =
     I.inj(a)
@@ -25,5 +25,5 @@ object TwitterWithDelete {
     I.inj(a)
 
   val example2: Free[TwitterWithDelete, Unit] =
-    more(inject(Update("new tweet", more(inject(Delete("<id>", done()))))))
+    more(inject(Update("new tweet", more(inject(Delete("<id>", done((): Unit)))))))
 }

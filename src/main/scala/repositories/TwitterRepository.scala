@@ -1,18 +1,16 @@
 package repositories
 
-import com.ning.http.client.AsyncHttpClientConfig
-import play.api.libs.oauth.ConsumerKey
-import play.api.libs.oauth.OAuthCalculator
-import play.api.libs.oauth.RequestToken
+import akka.actor.Actor
+import akka.stream.ActorMaterializer
+import play.api.libs.oauth.{ConsumerKey, OAuthCalculator, RequestToken}
 import play.api.libs.ws._
-import play.api.libs.ws.ning._
+import play.api.libs.ws.ahc.{AhcConfigBuilder, AhcWSClient}
 
 import scala.concurrent.Future
 
-object TwitterRepository {
-  val config = new NingAsyncHttpClientConfigBuilder(DefaultWSClientConfig()).build()
-  val builder = new AsyncHttpClientConfig.Builder(config)
-  val client = new NingWSClient(builder.build)
+object TwitterRepository extends Actor {
+  val config = new AhcConfigBuilder().build()
+  val client = new AhcWSClient(config)(ActorMaterializer())
 
   val key   = ConsumerKey(
     "key",
@@ -33,4 +31,6 @@ object TwitterRepository {
     client.url("https://api.twitter.com/1.1/statuses/update.json")
       .sign(OAuthCalculator(key, token))
       .post(Map("status" -> Seq(status)))
+
+  override def receive: Receive = ???
 }
